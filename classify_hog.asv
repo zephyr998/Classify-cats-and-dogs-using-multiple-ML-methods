@@ -1,0 +1,18 @@
+% classificaiton using HOG features
+train_num=1600;
+test_num=400;
+hoglen=1764;
+
+xtrain_hog=zeros(train_num,hoglen);
+xtest_hog=zeros(test_num,hoglen);
+
+for k=1:train_num
+    [xtrain_hog(k,:),~]=extractHOGFeatures(vector2img(Xtrain,k));
+end
+
+for k=1:test_num
+    [xtest_hog(k,:),~]=extractHOGFeatures(vector2img(Xtrain,k));
+end
+
+nn_hog=calculate_accuracy(ytest,nearest_neighbor(xtrain_hog,ytrain,xtest_hog));
+close_ave_hog=calculate_accuracy(ytest,closest(xtrain_hog,ytrain,xtest_hog));
